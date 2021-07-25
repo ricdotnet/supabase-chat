@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Supabase Chat App</title>
+
+    <link href="app.css" rel="stylesheet" />
+</head>
+<body>
+
+    Supabase chat app...
+
+    <br><br>
+
+    <label for="username">Username</label><input name="username" id="username">
+    <br><br>
+    <form onsubmit="event.preventDefault()">
+        <label for="message">
+            Message
+        </label>
+        <input id="message" name="message">
+
+        <button onclick="sendChat()">Send</button>
+    </form>
+
+    <br><br>
+
+    <ul id="messages">
+
+    </ul>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="app.js" type="application/javascript" defer></script>
+</body>
+</html>
