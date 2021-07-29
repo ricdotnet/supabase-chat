@@ -9,8 +9,13 @@ client
 let messagesList = document.getElementById('messages')
 
 async function sendChat() {
-  let username = document.getElementById('username').value;
-  let message = document.getElementById('message').value;
+  // let username = document.getElementById('username').value;
+  // let message = document.getElementById('message').value;
+  let file = document.getElementById('file').files[0]
+  
+  uploadFile(file)
+
+  return;
 
   if(!username)
     return alert('enter a username to send messages...')
@@ -30,6 +35,25 @@ async function sendChat() {
   }
 
   message.value = ''
+}
+
+async function uploadFile(file) {
+  const { data } = await client
+    .storage
+    .from('photos')
+    .upload(`chatapp/${Date.now()}-${file.name}`, file, {
+      cacheControl: 3600,
+      upsert: false
+    })
+
+    let url = data.Key.substring(7)
+
+    const { publicURL, error } = client
+    .storage
+    .from('photos')
+    .getPublicUrl(url)
+
+    window.open(publicURL, '_blank')
 }
 
 function updateChats(data) {
