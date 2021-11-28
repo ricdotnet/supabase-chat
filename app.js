@@ -7,26 +7,31 @@ client
   .subscribe()
 
 let messagesList = document.getElementById('messages')
+let message = document.getElementById('message');
 
 async function sendChat() {
-  // let username = document.getElementById('username').value;
-  // let message = document.getElementById('message').value;
-  let file = document.getElementById('file').files[0]
+  let username = document.getElementById('username').value;
+  // let file = document.getElementById('file').files[0]
   
-  uploadFile(file)
+  // uploadFile(file)
 
-  return;
+  // return;
 
   if(!username)
     return alert('enter a username to send messages...')
 
-  if(!message)
+  if(!message.value)
     return alert('enter a message...')
+
+  let msg = message.value;
+  badwords.forEach(el => {
+    msg.replace(el, 'some')
+  })
 
   const { data, error } = await client
     .from('messages')
     .insert([
-      { user: username, message: message },
+      { user: username, message: message.value },
     ])
 
   if(error) {
@@ -61,8 +66,10 @@ function updateChats(data) {
   if(messagesList.length === 0)
     messagesList.textContent = ''
 
+  let msgContent = data.new.message;
+
   let node = document.createElement('li')
-  let text = document.createTextNode(data.new.user + ' -> ' + data.new.message)
+  let text = document.createTextNode(data.new.user + ' -> ' + msgContent)
   node.appendChild(text)
   messagesList.prepend(node)
 }
@@ -84,3 +91,11 @@ window.addEventListener('load', async (event) => {
     messagesList.appendChild(node)
   })
 })
+
+badwords = ['fuck', 'bitch', 'shit', 'cunt'];
+
+function badWords() {
+  return new Promise((resolve, reject) => {
+    
+  })
+}
